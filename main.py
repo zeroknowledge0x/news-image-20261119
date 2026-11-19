@@ -1,19 +1,21 @@
-"""Places the 19 November 2026 world-news image in the grading output directory."""
+"""Copy the 19 November 2026 world-news picture into the grader's output folder.
 
-import os
-import shutil
+Only the Python 3 standard library is used at grading time; the illustration
+is committed alongside this script and is never regenerated here.
+"""
+from os import environ, makedirs, path
+from shutil import copyfile
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
-SOURCE = os.path.join(HERE, "entry.png")
+ROOT = path.dirname(path.abspath(__file__))
+DEST = environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+SRC = path.join(ROOT, "entry.png")
 
 
-def main():
-    if not os.path.isfile(SOURCE):
-        raise SystemExit("Source image not found: " + SOURCE)
-    os.makedirs(OUT, exist_ok=True)
-    shutil.copyfile(SOURCE, os.path.join(OUT, "entry.png"))
+def emit():
+    assert path.isfile(SRC), "image not present: " + SRC
+    makedirs(DEST, exist_ok=True)
+    copyfile(SRC, path.join(DEST, "entry.png"))
 
 
 if __name__ == "__main__":
-    main()
+    emit()
